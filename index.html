@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>会議共有ログイン</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2rem; background: #f2f2f2; }
+    .container { max-width: 400px; margin: auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, button { width: 100%; padding: 10px; margin: 0.5rem 0; font-size: 1rem; }
+    #status { margin-top: 1rem; color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>会議アプリ ログイン</h2>
+    <input type="email" id="email" placeholder="メールアドレス">
+    <input type="password" id="password" placeholder="パスワード">
+    <button onclick="login()">ログイン</button>
+    <button onclick="register()">新規登録</button>
+    <div id="status"></div>
+  </div>
+
+  <script>
+    // ✅ Firebase構成（あなたのプロジェクト情報を反映済み）
+    const firebaseConfig = {
+      apiKey: "AIzaSyCXydeyvU6W_y7LwzKHVIdv5sKjTdLgo4s",
+      authDomain: "meet-app-7cad1.firebaseapp.com",
+      projectId: "meet-app-7cad1",
+      storageBucket: "meet-app-7cad1.appspot.com",
+      messagingSenderId: "557287076282",
+      appId: "1:557287076282:web:ce1ef38bdfa5457eec2d83"
+    };
+
+    // 🔧 Firebase 初期化
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // 🔐 ログイン処理
+    function login() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          if (!user.email.endsWith('@plantec-kk.co.jp')) {
+            alert("社内メールアドレスのみログイン可能です");
+            auth.signOut();
+          } else {
+            document.getElementById("status").textContent = "ログイン成功！";
+            window.location.href = "main.html"; // ← 次のページに遷移
+          }
+        })
+        .catch((error) => {
+          alert("ログイン失敗：" + error.message);
+        });
+    }
+
+    // 🆕 ユーザー登録
+    function register() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => alert("登録成功！ログインしてください"))
+        .catch((error) => alert("登録失敗：" + error.message));
+    }
+  </script>
+</body>
+</html>
