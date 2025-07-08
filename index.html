@@ -1,0 +1,59 @@
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDTm_VPBMfA0NBlxGPz2Ize0406vyqT6mA",
+    authDomain: "meeting-app-37523.firebaseapp.com",
+    projectId: "meeting-app-37523",
+    storageBucket: "meeting-app-37523.firebasestorage.app",
+    messagingSenderId: "495569726713",
+    appId: "1:495569726713:web:744e1b7a116f378ba9c628"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  document.getElementById("login-btn").addEventListener("click", async () => {
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      alert("ログインエラー：" + error.message);
+    }
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      document.getElementById("login-section").style.display = "none";
+      document.getElementById("app-section").style.display = "block";
+      document.getElementById("user-email").innerText = user.email;
+    }
+  });
+
+  window.submitMeeting = async function () {
+    const date = document.getElementById("date").value;
+    const chairman = document.getElementById("chairman").value;
+    await addDoc(collection(db, "meetings"), {
+      date, chairman, createdAt: new Date()
+    });
+    alert("登録完了！");
+  };
+</script>
+
+<!-- HTML本文中に以下を追加 -->
+<div id="login-section">
+  <h2>ログインしてください</h2>
+  <button id="login-btn">Googleでログイン</button>
+</div>
+
+<div id="app-section" style="display:none;">
+  <p>ログイン中: <span id="user-email"></span></p>
+  <form id="meeting-form">
+    <label>開催日: <input type="date" id="date"></label><br>
+    <label>議長: <input type="text" id="chairman"></label><br>
+    <button type="button" onclick="submitMeeting()">送信</button>
+  </form>
+</div>
