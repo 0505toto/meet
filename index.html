@@ -1,72 +1,150 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>会議共有ログイン</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 2rem; background: #f2f2f2; }
-    .container { max-width: 400px; margin: auto; background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    input, button { width: 100%; padding: 10px; margin: 0.5rem 0; font-size: 1rem; }
-    #status { margin-top: 1rem; color: green; font-weight: bold; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>経理部ポータル</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <%-- ▼ 参照するCSSファイル名を新しいものに変更 --%>
+    <link rel="stylesheet" href="style2_2.css">
 </head>
 <body>
-  <div class="container">
-    <h2>会議アプリ ログイン</h2>
-    <input type="email" id="email" placeholder="メールアドレス">
-    <input type="password" id="password" placeholder="パスワード">
-    <button onclick="login()">ログイン</button>
-    <button onclick="register()">新規登録</button>
-    <div id="status"></div>
-  </div>
 
-  <script>
-    // ✅ Firebase構成（あなたのプロジェクト情報を反映済み）
-    const firebaseConfig = {
-      apiKey: "AIzaSyCXydeyvU6W_y7LwzKHVIdv5sKjTdLgo4s",
-      authDomain: "meet-app-7cad1.firebaseapp.com",
-      projectId: "meet-app-7cad1",
-      storageBucket: "meet-app-7cad1.appspot.com",
-      messagingSenderId: "557287076282",
-      appId: "1:557287076282:web:ce1ef38bdfa5457eec2d83"
-    };
+    <header class="site-header">
+        <div id="particles-js"></div>
+        <div class="header-content">
+            <h1><i class="fa-solid fa-landmark"></i> 経理部ポータル</h1>
+            <p>業務に必要な情報やツールをまとめました。</p>
+            <p class="update-info">更新日: 2025年7月8日 Ver.1</p>
+        </div>
+    </header>
 
-    // 🔧 Firebase 初期化
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+    <div class="main-layout">
+        
+        <main class="container">
 
-    // 🔐 ログイン処理
-    function login() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+            <section id="widgets" class="widget-section">
+                <div id="weather-widget" class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-solid fa-sun"></i> 大阪の天気</h3>
+                    </div>
+                    <div id="weather-info" class="card-content">
+                        <p>読み込み中...</p>
+                    </div>
+                </div>
+                <div id="search-widget" class="card">
+                    <div class="card-header">
+                        <h3><i class="fa-brands fa-google"></i> Google検索</h3>
+                    </div>
+                    <div class="card-content">
+                        <form id="google-search-form" action="https://www.google.com/search" method="get" target="_blank">
+                            <input type="text" name="q" placeholder="検索キーワードを入力" required>
+                            <button type="submit" aria-label="検索"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <a href="https://ini5a.kinjirou-asp.jp/PLNT1701/KinjirouWeb/kinjirou/kwtop/kwtop.aspx?type=20005" target="_blank" rel="noopener noreferrer" class="card">
+                    <i class="fa-solid fa-user-clock card-icon"></i>
+                    <h3>勤次郎</h3>
+                    <p>勤怠管理システム</p>
+                </a>
+            </section>
 
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          if (!user.email.endsWith('@plantec-kk.co.jp')) {
-            alert("社内メールアドレスのみログイン可能です");
-            auth.signOut();
-          } else {
-            document.getElementById("status").textContent = "ログイン成功！";
-            window.location.href = "main.html"; // ← 次のページに遷移
-          }
-        })
-        .catch((error) => {
-          alert("ログイン失敗：" + error.message);
-        });
-    }
+            <section id="favorites">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-star"></i> お気に入り</h2>
+                    <button id="add-favorite-btn" class="button-add" title="お気に入りを追加" aria-label="お気に入りを追加">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+                <div id="favorites-list" class="card-grid-small">
+                    </div>
+            </section>
 
-    // 🆕 ユーザー登録
-    function register() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+            <section id="schedule">
+                <h2><i class="fa-solid fa-calendar-days"></i> Schedule</h2>
+                <div class="card-grid">
+                    <a href="" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-calendar-week card-icon"></i><h3>年間業務</h3><p>年間の業務スケジュールを確認します。</p></a>
+                    <a href="https://outlook.office.com/calendar/view/month" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-regular fa-calendar card-icon"></i><h3>日常業務</h3><p>個人のOutlookカレンダーを開きます。</p></a>
+                    <a href="https://0505toto.github.io/todo/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-list-check card-icon"></i><h3>部内突発タスク</h3><p>部内で発生したタスクを管理します。</p></a>
+                </div>
+            </section>
+            
+            <section id="accounting-links">
+                <h2><i class="fa-solid fa-calculator"></i> 経理部専用ツール</h2>
+                <div id="accounting-links-grid" class="card-grid-small">
+                    <a href="https://business.getmoneytree.com/landing" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-tree card-icon-small"></i><h4>Moneytree</h4><p>各銀行の入出金管理</p></a>
+                    <a href="https://plantec-kk.app.bill-one.com/recipient/accounting/invoices" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-file-invoice-dollar card-icon-small"></i><h4>Bill One</h4><p>請求書管理</p></a>
+                    <a href="https://app.makeleaps.com/home/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-file-signature card-icon-small"></i><h4>MakeLeaps</h4><p>請求書・注文請書作成</p></a>
+                    <a href="https://rsphoto.rakurakuseisan.jp/yCiwuzXNzTa/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-train-subway card-icon-small"></i><h4>楽楽精算</h4><p>経費・交通費精算</p></a>
+                    
+                    <a href="https://0505toto.github.io/NetBankingportal/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-building-columns card-icon-small"></i><h4>SPC NetBanking</h4><p>SPC関連の銀行サイト</p></a>
+                    <a href="https://menu.a-saas.jp/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-gears card-icon-small"></i><h4>A-saas</h4><p>SPC会計ソフト</p></a>
+                    <a href="https://corporate.bk.mufg.jp/frontend/auth" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-yen-sign card-icon-small"></i><h4>main銀行</h4><p>三菱UFJ銀行 BizSTATION</p></a>
+                    <a href="https://www.b-direct.resonabank.co.jp/0010c/oauth/auth?response_type=code&client_id=OPRS0010&redirect_uri=https://wb.resona-gr.co.jp/webservice/WSOI0102E100M.do&state=OIDCRelateState&nonce=a2dc98c7afe54bba9c52241753b99eba&approvaldiv=2&balance_inquiry_use=0&account_activity_use=0&account_activity_zengin_use=0&transfer_payment_use=0&transfer_payment_zengin_use=0&transfer_request_use=0&comprehensive_transfer_request_use=0&salary_bonus_transfer_request_use=0&account_transfer_1_request_use=0&account_transfer_2_request_use=0&account_transfer_3_request_use=0&account_transfer_4_request_use=0&account_transfer_5_request_use=0&bulk_account_verification_request_use=0&transfer_inquiry_use=0&comprehensive_transfer_inquiry_use=0&salary_bonus_transfer_inquiry_use=0&account_transfer_1_inquiry_use=0&account_transfer_2_inquiry_use=0&account_transfer_3_inquiry_use=0&account_transfer_4_inquiry_use=0&account_transfer_5_inquiry_use=0&bulk_account_verification_inquiry_use=0&transfer_approval_use=0&comprehensive_transfer_approval_use=0&salary_bonus_transfer_approval_use=0&account_transfer_1_approval_use=0&account_transfer_2_approval_use=0&account_transfer_3_approval_use=0&account_transfer_4_approval_use=0&account_transfer_5_approval_use=0&bulk_account_verification_approval_use=0&account_transfer_1_result_use=0&account_transfer_2_result_use=0&account_transfer_3_result_use=0&account_transfer_4_result_use=0&account_transfer_5_result_use=0&account_transfer_1_fee_use=0&account_transfer_2_fee_use=0&account_transfer_3_fee_use=0&account_transfer_4_fee_use=0&account_transfer_5_fee_use=0&openid_use=1&erm_claims_inquiry_use=0&erm_payment_use=0&erm_financings_use=0" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-jpy card-icon-small"></i><h4>sub銀行</h4><p>りそなビジネスダイレクト</p></a>
+                </div>
+            </section>
 
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => alert("登録成功！ログインしてください"))
-        .catch((error) => alert("登録失敗：" + error.message));
-    }
-  </script>
+            <section id="company-links">
+                <h2><i class="fa-solid fa-building"></i> 社内共通リンク</h2>
+                <div id="company-links-grid" class="card-grid-small">
+                    <a href="https://hz6n32v7pq52.cybozu.com/g/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-cloud card-icon-small"></i><h4>Garoon</h4><p>社内ポータル</p></a>
+                    <a href="http://pweb/plantec_main/top.php" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-server card-icon-small"></i><h4>旧ポータル</h4><p>旧社内ポータルサイト</p></a>
+                    <a href="https://plantec.media.ourly.jp/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-newspaper card-icon-small"></i><h4>PlantecNews</h4><p>社内ニュースサイト</p></a>
+                    <a href="https://www.fukuri.jp/fkr/apps/log/AASC10111.cfm?action=login" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-gift card-icon-small"></i><h4>RELO CLUB</h4><p>福利厚生クラブ</p></a>
+                    <a href="https://hz6n32v7pq52.cybozu.com/k/#/portal" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-shapes card-icon-small"></i><h4>Kintone</h4><p>アプリ作成</p></a>
+                    <a href="https://https://hz6n32v7pq52.cybozu.com/k/168/?view=20#sort_0=f13312458&order_0=desc&qs=1/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-address-book card-icon-small"></i><h4>経理住所録Hub</h4><p>取引先等の住所録</p></a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-wand-magic-sparkles card-icon-small"></i><h4>便利サイト※工事中</h4><p>※URL未設定</p></a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-file-circle-question card-icon-small"></i><h4>経理詳細サイト※工事中</h4><p>※URL未設定</p></a>
+                </div>
+            </section>
+
+            <section id="ai-tools">
+                <h2><i class="fa-solid fa-brain"></i> AIツール</h2>
+                <div id="ai-tools-grid" class="card-grid-small">
+                    <a href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-robot card-icon-small"></i><h4>ChatGPT</h4><p>AIアシスタント</p></a>
+                    <a href="https://gemini.google.com/app?hl=ja" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-star-of-life card-icon-small"></i><h4>Gemini</h4><p>AIアシスタント</p></a>
+                </div>
+            </section>
+        </main>
+        
+        <aside id="quick-access-sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fa-solid fa-bolt"></i> Quick Access</h3>
+            </div>
+            <div id="quick-access-list" class="card-grid-small">
+                <p class="drop-placeholder">よく使う項目をここにドラッグ&ドロップ</p>
+            </div>
+        </aside>
+
+    </div><footer class="site-footer">
+        <p>&copy; 2025 経理部ポータル</p>
+    </footer>
+
+    <div id="favorite-modal" class="modal">
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h3>お気に入りに追加</h3>
+                <button id="close-modal-btn" class="button-close" aria-label="閉じる">&times;</button>
+            </div>
+            <form id="favorite-form">
+                <div class="form-group">
+                    <label for="favorite-name">サイト名</label>
+                    <input type="text" id="favorite-name" required placeholder="例: Google">
+                </div>
+                <div class="form-group">
+                    <label for="favorite-url">URL</label>
+                    <input type="url" id="favorite-url" required placeholder="https://www.google.com">
+                </div>
+                <button type="submit" class="button-primary">保存する</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <%-- ▼ 参照するJavaScriptファイル名を新しいものに変更 --%>
+    <script src="script2_2.js"></script>
+
 </body>
 </html>
