@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>経理部ポータル</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <%-- ▼ 参照するCSSファイル名を新しいものに変更 --%>
-    <link rel="stylesheet" href="style2_2.css">
+    <link rel="stylesheet" href="style2_3.css">
 </head>
 <body>
 
@@ -39,7 +38,7 @@
                     <div class="card-content">
                         <form id="google-search-form" action="https://www.google.com/search" method="get" target="_blank">
                             <input type="text" name="q" placeholder="検索キーワードを入力" required>
-                            <button type="submit" aria-label="検索"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </div>
                 </div>
@@ -53,7 +52,7 @@
             <section id="favorites">
                 <div class="section-header">
                     <h2><i class="fa-solid fa-star"></i> お気に入り</h2>
-                    <button id="add-favorite-btn" class="button-add" title="お気に入りを追加" aria-label="お気に入りを追加">
+                    <button id="add-favorite-btn" class="button-add" title="お気に入りを追加">
                         <i class="fa-solid fa-plus"></i>
                     </button>
                 </div>
@@ -93,7 +92,7 @@
                     <a href="https://plantec.media.ourly.jp/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-newspaper card-icon-small"></i><h4>PlantecNews</h4><p>社内ニュースサイト</p></a>
                     <a href="https://www.fukuri.jp/fkr/apps/log/AASC10111.cfm?action=login" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-gift card-icon-small"></i><h4>RELO CLUB</h4><p>福利厚生クラブ</p></a>
                     <a href="https://hz6n32v7pq52.cybozu.com/k/#/portal" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-shapes card-icon-small"></i><h4>Kintone</h4><p>アプリ作成</p></a>
-                    <a href="https://https://hz6n32v7pq52.cybozu.com/k/168/?view=20#sort_0=f13312458&order_0=desc&qs=1/" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-address-book card-icon-small"></i><h4>経理住所録Hub</h4><p>取引先等の住所録</p></a>
+                    <a href="https://hz6n32v7pq52.cybozu.com/k/168/?view=20#sort_0=f13312458&order_0=desc&qs=1" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-address-book card-icon-small"></i><h4>経理住所録Hub</h4><p>取引先等の住所録</p></a>
                     <a href="#" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-wand-magic-sparkles card-icon-small"></i><h4>便利サイト※工事中</h4><p>※URL未設定</p></a>
                     <a href="#" target="_blank" rel="noopener noreferrer" class="card"><i class="fa-solid fa-file-circle-question card-icon-small"></i><h4>経理詳細サイト※工事中</h4><p>※URL未設定</p></a>
                 </div>
@@ -117,7 +116,9 @@
             </div>
         </aside>
 
-    </div><footer class="site-footer">
+    </div>
+
+    <footer class="site-footer">
         <p>&copy; 2025 経理部ポータル</p>
     </footer>
 
@@ -125,7 +126,7 @@
         <div class="modal-content card">
             <div class="modal-header">
                 <h3>お気に入りに追加</h3>
-                <button id="close-modal-btn" class="button-close" aria-label="閉じる">&times;</button>
+                <button id="close-modal-btn" class="button-close">&times;</button>
             </div>
             <form id="favorite-form">
                 <div class="form-group">
@@ -143,8 +144,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <%-- ▼ 参照するJavaScriptファイル名を新しいものに変更 --%>
-    <script src="script2_2.js"></script>
+    <script src="script2_3.js"></script>
 
 </body>
 </html>
